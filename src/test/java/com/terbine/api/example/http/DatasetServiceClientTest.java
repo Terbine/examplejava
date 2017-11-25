@@ -75,7 +75,7 @@ public class DatasetServiceClientTest extends CoreHttpServiceClientTest {
     }
 
     @Test
-    public void test() throws Exception {
+    public void testDownloadDataaset() throws Exception {
 
         DatasetService httpService = getDatasetService();
 
