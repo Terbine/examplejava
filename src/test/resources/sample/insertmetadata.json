@@ -1,0 +1,132 @@
+{
+  "orgId": "32d7dff4-2d28-4e3d-a116-830af485dc4b",
+  "identifier": {
+    "id": null,
+    "extId": "",
+    "urn": null,
+    "uri": null
+  },
+  "meta": {
+    "name": "San Fransisco - Weather Underground Sensor Data",
+    "description": "Weather information from variety of weather related readings from various weather stations in San Fransisco area.",
+    "imageUrl": null,
+    "version": "",
+    "startDate": null,
+    "endDate": null
+  },
+  "dataset": [
+    {
+      "extId": "SRC_EXT_ID1",
+      "type": 30,
+      "typeName": "Sensor",
+      "sensorInfo": {
+        "type": 422,
+        "typeName": "Barometer",
+        "make": "make 123",
+        "model": "model 123",
+        "comment": "Specific sensor comment"
+      },
+      "schemaInfo": {
+        "format": 502,
+        "type": 81,
+        "typeName": "JSON",
+        "property": ";",
+        "body": null
+      },
+      "comment": "Comment on sample dataset information"
+    }
+  ],
+  "containers": [
+    {
+      "legalType": null,
+      "latitude": null,
+      "longitude": null,
+      "address": null,
+      "altitude": null,
+      "legalTypeName": null,
+      "type": 130,
+      "typeName": "Fixed",
+      "parentId": null,
+      "extId": "CONT_EXT_ID",
+      "locationType": 130,
+      "locationTypeName": "Fixed",
+      "locationSubType": 10003,
+      "locationSubTypeName": "Lat/Lon",
+      "startDate": "2015-12-03T04:17:36Z",
+      "endDate": null,
+      "name": "Container name",
+      "description": "Container long description",
+      "location": {
+        "latitude": "55.6761",
+        "longitude": "12.5683",
+        "altitude": "",
+        "address": "",
+        "city": null,
+        "stateTerritory": "",
+        "county": "",
+        "country": "",
+        "postalCode": "",
+        "freetText": null
+      }
+    }
+  ],
+  "status": 2,
+  "requireLegalReview": 0,
+  "owners": [
+    {
+      "startDate": "2017-11-03T04:17:36Z",
+      "endDate": null,
+      "ownerId": "62371b76-bd48-4dae-86e3-3590737fc8a4",
+      "ownerName": "Owner org for Sample insertion of Metadata",
+      "type": 60,
+      "typeName": "Organization",
+      "comment": "Ownership comment here"
+    }
+  ],
+  "categories": [],
+  "gicsCodes": [
+    {
+      "name": "45102010 IT Consulting & Other Services",
+      "level": "SUB_INDUSTRY",
+      "id": "45102010"
+    }
+  ],
+  "tags": [],
+  "legal": [
+    {
+      "type": 104,
+      "typeName": "Open Source",
+      "externalUrl": null,
+      "comment": "Legal Information for COPYRIGHT",
+      "startDate": "2015-12-03T04:17:36Z",
+      "endDate": null
+    },
+    {
+      "type": 101,
+      "typeName": "Government",
+      "externalUrl": null,
+      "comment": "Legal Information for GOVERNMENT",
+      "startDate": "2015-12-03T04:17:36Z",
+      "endDate": null
+    }
+  ],
+  "regulatory": [
+    {
+      "type": 141,
+      "typeName": "Privacy Shield",
+      "comment": "Regulatory Information for SAFEHARBOR",
+      "startDate": "2015-12-03T04:17:36Z",
+      "endDate": null
+    }
+  ],
+  "gradings": [
+    {
+      "type": 120,
+      "grade": "Bronze",
+      "comment": "Protected under TERBINE standard legal terms"
+    }
+  ],
+  "citation": {
+    "text": ""
+  }
+}
