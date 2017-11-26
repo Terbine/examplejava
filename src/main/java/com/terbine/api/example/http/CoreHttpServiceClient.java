@@ -13,9 +13,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.terbine.api.example.util.CommonDefinitions;
 import com.terbine.cabinet.app.AuthenticatedUser;
+import com.terbine.cabinet.model.Domain;
 import com.terbine.cabinet.model.RefType;
 import com.terbine.cabinet.model.auth.Login;
 import com.terbine.cabinet.model.domain.GicsSector;
+import com.terbine.cabinet.model.geo.Country;
+import com.terbine.cabinet.model.geo.State;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -100,7 +103,7 @@ public class CoreHttpServiceClient implements CoreHttpService {
     }
 
     @Override
-    public AuthenticatedUser login(String user, String password) throws URISyntaxException {
+    public AuthenticatedUser login(final String user, final String password) throws URISyntaxException {
         AuthenticatedUser au = null;
         try {
             String responseString = null;
@@ -175,12 +178,84 @@ public class CoreHttpServiceClient implements CoreHttpService {
     }
 
     @Override
-    public List<RefType> getDomain(String domainName) throws URISyntaxException {
+    public List<Domain> getDomain(final String domainName) throws URISyntaxException {
+
+        List<Domain> domainTypes = null;
+        try {
+            URI uri = new URIBuilder(this.baseUri)
+                    .setPath("/api/domain/" + domainName)
+                    .build();
+
+            HttpGet request = new HttpGet(uri);
+            request.setHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON);
+
+            HttpResponseInfo httpResponseInfo = this.httpClient.execute((HttpUriRequest) request, responseHandler);
+            // just check if it is in 200 range
+            if (httpResponseInfo.getResponseCode() > 299) {
+                String errorString = httpResponseInfo.getResponseString();
+                if (errorString == null || errorString.length() == 0) {
+                    errorString = "Error during registering collector complete.";
+                }
+                log.error(errorString + " Status {}", httpResponseInfo.getResponseCode());
+                throw new RuntimeException(errorString + " " + httpResponseInfo.getResponseCode());
+            } else {
+                String responseString = httpResponseInfo.getResponseString();
+                log.info("Response from Posting Data. Code = " + httpResponseInfo.getResponseCode() + ","
+                        + " Data = [" + responseString + "]");
+                domainTypes = this.objMapper.readValue(responseString,
+                        this.objMapper.getTypeFactory().constructCollectionType(
+                                List.class, Domain.class));
+            }
+        } catch (IOException ex) {
+            log.error("Error calling core TERBINE service", ex);
+            throw new RuntimeException("Error calling core TERBINE service", ex);
+        }
+        return domainTypes;
+    }
+
+    @Override
+    public List<Domain> getDomain(final Integer domainId) throws URISyntaxException {
+
+        List<Domain> domainTypes = null;
+        try {
+            URI uri = new URIBuilder(this.baseUri)
+                    .setPath("/api/domain/" + domainId)
+                    .build();
+
+            HttpGet request = new HttpGet(uri);
+            request.setHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON);
+
+            HttpResponseInfo httpResponseInfo = this.httpClient.execute((HttpUriRequest) request, responseHandler);
+            // just check if it is in 200 range
+            if (httpResponseInfo.getResponseCode() > 299) {
+                String errorString = httpResponseInfo.getResponseString();
+                if (errorString == null || errorString.length() == 0) {
+                    errorString = "Error during registering collector complete.";
+                }
+                log.error(errorString + " Status {}", httpResponseInfo.getResponseCode());
+                throw new RuntimeException(errorString + " " + httpResponseInfo.getResponseCode());
+            } else {
+                String responseString = httpResponseInfo.getResponseString();
+                log.info("Response from Posting Data. Code = " + httpResponseInfo.getResponseCode() + ","
+                        + " Data = [" + responseString + "]");
+                domainTypes = this.objMapper.readValue(responseString,
+                        this.objMapper.getTypeFactory().constructCollectionType(
+                                List.class, Domain.class));
+            }
+        } catch (IOException ex) {
+            log.error("Error calling core TERBINE service", ex);
+            throw new RuntimeException("Error calling core TERBINE service", ex);
+        }
+        return domainTypes;
+    }
+
+    @Override
+    public List<RefType> getSicsCode() throws URISyntaxException {
 
         List<RefType> domainTypes = null;
         try {
             URI uri = new URIBuilder(this.baseUri)
-                    .setPath("/api/domain/" + domainName)
+                    .setPath("/api/domain/siccode")
                     .build();
 
             HttpGet request = new HttpGet(uri);
@@ -259,5 +334,77 @@ public class CoreHttpServiceClient implements CoreHttpService {
             log.error("Error retrieving content for REST service", ex);
         }
         return sb.toString();
+    }
+
+    @Override
+    public List<Country> getCountries() throws URISyntaxException {
+
+        List<Country> list = null;
+        try {
+            URI uri = new URIBuilder(this.baseUri)
+                    .setPath("/api/domain/country")
+                    .build();
+
+            HttpGet request = new HttpGet(uri);
+            request.setHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON);
+
+            HttpResponseInfo httpResponseInfo = this.httpClient.execute((HttpUriRequest) request, responseHandler);
+            // just check if it is in 200 range
+            if (httpResponseInfo.getResponseCode() > 299) {
+                String errorString = httpResponseInfo.getResponseString();
+                if (errorString == null || errorString.length() == 0) {
+                    errorString = "Error during registering collector complete.";
+                }
+                log.error(errorString + " Status {}", httpResponseInfo.getResponseCode());
+                throw new RuntimeException(errorString + " " + httpResponseInfo.getResponseCode());
+            } else {
+                String responseString = httpResponseInfo.getResponseString();
+                log.info("Response from Posting Data. Code = " + httpResponseInfo.getResponseCode() + ","
+                        + " Data = [" + responseString + "]");
+                list = this.objMapper.readValue(responseString,
+                        this.objMapper.getTypeFactory().constructCollectionType(
+                                List.class, Country.class));
+            }
+        } catch (IOException ex) {
+            log.error("Error calling core TERBINE service", ex);
+            throw new RuntimeException("Error calling core TERBINE service", ex);
+        }
+        return list;
+    }
+
+    @Override
+    public List<State> getStates(final String country) throws URISyntaxException {
+
+        List<State> list = null;
+        try {
+            URI uri = new URIBuilder(this.baseUri)
+                    .setPath("/api/domain/country/" + country + "/state")
+                    .build();
+
+            HttpGet request = new HttpGet(uri);
+            request.setHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON);
+
+            HttpResponseInfo httpResponseInfo = this.httpClient.execute((HttpUriRequest) request, responseHandler);
+            // just check if it is in 200 range
+            if (httpResponseInfo.getResponseCode() > 299) {
+                String errorString = httpResponseInfo.getResponseString();
+                if (errorString == null || errorString.length() == 0) {
+                    errorString = "Error during registering collector complete.";
+                }
+                log.error(errorString + " Status {}", httpResponseInfo.getResponseCode());
+                throw new RuntimeException(errorString + " " + httpResponseInfo.getResponseCode());
+            } else {
+                String responseString = httpResponseInfo.getResponseString();
+                log.info("Response from Posting Data. Code = " + httpResponseInfo.getResponseCode() + ","
+                        + " Data = [" + responseString + "]");
+                list = this.objMapper.readValue(responseString,
+                        this.objMapper.getTypeFactory().constructCollectionType(
+                                List.class, State.class));
+            }
+        } catch (IOException ex) {
+            log.error("Error calling core TERBINE service", ex);
+            throw new RuntimeException("Error calling core TERBINE service", ex);
+        }
+        return list;
     }
 }

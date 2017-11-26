@@ -11,8 +11,11 @@
 package com.terbine.api.example.http;
 
 import com.terbine.cabinet.app.AuthenticatedUser;
+import com.terbine.cabinet.model.Domain;
 import com.terbine.cabinet.model.RefType;
 import com.terbine.cabinet.model.domain.GicsSector;
+import com.terbine.cabinet.model.geo.Country;
+import com.terbine.cabinet.model.geo.State;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -24,11 +27,19 @@ import java.util.List;
 @SuppressWarnings({"javadocs"})
 public interface CoreHttpService {
 
-    AuthenticatedUser login(String user, String password) throws URISyntaxException;
+    AuthenticatedUser login(final String user, final String password) throws URISyntaxException;
 
     List<RefType> getDomainTypes() throws URISyntaxException;
 
-    List<RefType> getDomain(String domainName) throws URISyntaxException;
+    List<Domain> getDomain(final String domainName) throws URISyntaxException;
+
+    List<Domain> getDomain(final Integer domainId) throws URISyntaxException;
+
+    List<RefType> getSicsCode() throws URISyntaxException;
 
     List<GicsSector> getGicsCode() throws URISyntaxException;
+
+    List<Country> getCountries() throws URISyntaxException;
+
+    List<State> getStates(final String country) throws URISyntaxException;
 }

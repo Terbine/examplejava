@@ -11,13 +11,17 @@ package com.terbine.api.example.http;
 
 import com.terbine.api.example.BaseApiTest;
 import com.terbine.cabinet.app.AuthenticatedUser;
+import com.terbine.cabinet.model.Domain;
 import com.terbine.cabinet.model.RefType;
 import com.terbine.cabinet.model.domain.GicsSector;
+import com.terbine.cabinet.model.geo.Country;
+import com.terbine.cabinet.model.geo.State;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -66,8 +70,25 @@ public class CoreHttpServiceClientTest extends BaseApiTest {
         assertNotNull(au.getToken());
     }
 
+    /**
+     * RefType(id=1, name=Category, description=Category domain types for ingested data, enabled=1)
+     RefType(id=2, name=Delivery, description=Delivery domain types for ingested data, enabled=1)
+     RefType(id=3, name=Dataset, description=Dataset domain types for ingested data, enabled=1)
+     RefType(id=4, name=Sensor, description=Sensor domain types for ingested data, enabled=1)
+     RefType(id=5, name=Format, description=Format domain types for ingested data, enabled=1)
+     RefType(id=6, name=Owner, description=Owner domain types for ingested data, enabled=1)
+     RefType(id=7, name=Container, description=Container domain types for ingested data, enabled=1)
+     RefType(id=8, name=Schema, description=Schema domain types for ingested data, enabled=1)
+     RefType(id=10, name=Legal, description=Legal domain types for ingested data, enabled=1)
+     RefType(id=11, name=Relation, description=Relation domain types for ingested data, enabled=1)
+     RefType(id=12, name=Grading, description=Grading domain types for ingested data, enabled=1)
+     RefType(id=13, name=Location, description=Location domain types for ingested data, enabled=1)
+     RefType(id=14, name=Regulatory, description=Regulatory domain types for ingested data, enabled=1)
+
+     * @throws Exception
+     */
     @Test
-    public void testDomainTypes() throws Exception {
+    public void testGetDomainTypes() throws Exception {
         CoreHttpService httpService = getCoreHttpService();
         List<RefType> list = httpService.getDomainTypes();
         assertNotNull(list);
@@ -75,17 +96,52 @@ public class CoreHttpServiceClientTest extends BaseApiTest {
     }
 
     @Test
-    public void testDomainSic() throws Exception {
+    public void testGetDomainById() throws Exception {
         CoreHttpService httpService = getCoreHttpService();
-        List<RefType> list = httpService.getDomain("siccode");
+        List<Domain> list = httpService.getDomain(12);
         assertNotNull(list);
         assertTrue(list.size() > 0);
     }
 
     @Test
-    public void testDomainGic() throws Exception {
+    public void testGetDomainByString() throws Exception {
+        CoreHttpService httpService = getCoreHttpService();
+        List<Domain> list = httpService.getDomain("grading");
+        assertNotNull(list);
+        assertTrue(list.size() > 0);
+    }
+
+    @Test
+    public void testGetDomainSic() throws Exception {
+        CoreHttpService httpService = getCoreHttpService();
+        List<RefType> list = httpService.getSicsCode();
+        assertNotNull(list);
+        assertTrue(list.size() > 0);
+    }
+
+    @Test
+    public void testGetDomainGic() throws Exception {
         CoreHttpService httpService = getCoreHttpService();
         List<GicsSector> list = httpService.getGicsCode();
+        assertNotNull(list);
+        assertTrue(list.size() > 0);
+    }
+
+    @Test
+    public void testGetCountries() throws Exception {
+        CoreHttpService httpService = getCoreHttpService();
+        List<Country> list = httpService.getCountries();
+        assertNotNull(list);
+        assertTrue(list.size() > 0);
+    }
+
+    @Test
+    public void testGetStates() throws Exception {
+        CoreHttpService httpService = getCoreHttpService();
+
+        List<Country> listC = httpService.getCountries();
+        Country usa = listC.stream().filter(s -> s.getIsoCode().equals("US")).findAny().get();
+        List<State> list = httpService.getStates(usa.getId().toString());
         assertNotNull(list);
         assertTrue(list.size() > 0);
     }
