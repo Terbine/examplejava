@@ -10,18 +10,17 @@
 package com.terbine.api.example.http;
 
 import com.terbine.api.example.BaseApiTest;
-import com.terbine.cabinet.app.AuthenticatedUser;
-import com.terbine.cabinet.model.Domain;
-import com.terbine.cabinet.model.RefType;
-import com.terbine.cabinet.model.domain.GicsSector;
-import com.terbine.cabinet.model.geo.Country;
-import com.terbine.cabinet.model.geo.State;
+import com.terbine.api.example.model.Domain;
+import com.terbine.api.example.model.RefType;
+import com.terbine.api.example.model.auth.AuthenticatedUser;
+import com.terbine.api.example.model.metadata.domain.Country;
+import com.terbine.api.example.model.metadata.domain.GicsSector;
+import com.terbine.api.example.model.metadata.domain.State;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -72,19 +71,19 @@ public class CoreHttpServiceClientTest extends BaseApiTest {
 
     /**
      * RefType(id=1, name=Category, description=Category domain types for ingested data, enabled=1)
-     RefType(id=2, name=Delivery, description=Delivery domain types for ingested data, enabled=1)
-     RefType(id=3, name=Dataset, description=Dataset domain types for ingested data, enabled=1)
-     RefType(id=4, name=Sensor, description=Sensor domain types for ingested data, enabled=1)
-     RefType(id=5, name=Format, description=Format domain types for ingested data, enabled=1)
-     RefType(id=6, name=Owner, description=Owner domain types for ingested data, enabled=1)
-     RefType(id=7, name=Container, description=Container domain types for ingested data, enabled=1)
-     RefType(id=8, name=Schema, description=Schema domain types for ingested data, enabled=1)
-     RefType(id=10, name=Legal, description=Legal domain types for ingested data, enabled=1)
-     RefType(id=11, name=Relation, description=Relation domain types for ingested data, enabled=1)
-     RefType(id=12, name=Grading, description=Grading domain types for ingested data, enabled=1)
-     RefType(id=13, name=Location, description=Location domain types for ingested data, enabled=1)
-     RefType(id=14, name=Regulatory, description=Regulatory domain types for ingested data, enabled=1)
-
+     * RefType(id=2, name=Delivery, description=Delivery domain types for ingested data, enabled=1)
+     * RefType(id=3, name=Dataset, description=Dataset domain types for ingested data, enabled=1)
+     * RefType(id=4, name=Sensor, description=Sensor domain types for ingested data, enabled=1)
+     * RefType(id=5, name=Format, description=Format domain types for ingested data, enabled=1)
+     * RefType(id=6, name=Owner, description=Owner domain types for ingested data, enabled=1)
+     * RefType(id=7, name=Container, description=Container domain types for ingested data, enabled=1)
+     * RefType(id=8, name=Schema, description=Schema domain types for ingested data, enabled=1)
+     * RefType(id=10, name=Legal, description=Legal domain types for ingested data, enabled=1)
+     * RefType(id=11, name=Relation, description=Relation domain types for ingested data, enabled=1)
+     * RefType(id=12, name=Grading, description=Grading domain types for ingested data, enabled=1)
+     * RefType(id=13, name=Location, description=Location domain types for ingested data, enabled=1)
+     * RefType(id=14, name=Regulatory, description=Regulatory domain types for ingested data, enabled=1)
+     *
      * @throws Exception
      */
     @Test

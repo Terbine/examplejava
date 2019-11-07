@@ -10,8 +10,8 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.cabinet.dataset.Attachment;
-import com.terbine.cabinet.model.ingest.FileUploadInfo;
+import com.terbine.api.example.model.ingest.Attachment;
+import com.terbine.api.example.model.ingest.FileUploadInfo;
 
 import java.net.URISyntaxException;
 import java.util.List;

@@ -9,9 +9,9 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.cabinet.app.AuthenticatedUser;
-import com.terbine.cabinet.dataset.Attachment;
-import com.terbine.cabinet.model.ingest.FileUploadInfo;
+import com.terbine.api.example.model.auth.AuthenticatedUser;
+import com.terbine.api.example.model.ingest.Attachment;
+import com.terbine.api.example.model.ingest.FileUploadInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;

@@ -9,9 +9,9 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.cabinet.dataset.Attachment;
-import com.terbine.cabinet.model.ingest.FileUploadInfo;
-import com.terbine.cabinet.model.metadata.Metadata;
+import com.terbine.api.example.model.ingest.Attachment;
+import com.terbine.api.example.model.ingest.FileUploadInfo;
+import com.terbine.api.example.model.metadata.Metadata;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;

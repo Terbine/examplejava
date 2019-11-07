@@ -9,7 +9,7 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.cabinet.model.metadata.Metadata;
+import com.terbine.api.example.model.metadata.Metadata;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.client.HttpClient;

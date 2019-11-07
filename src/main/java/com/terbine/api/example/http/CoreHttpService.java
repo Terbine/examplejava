@@ -10,12 +10,12 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.cabinet.app.AuthenticatedUser;
-import com.terbine.cabinet.model.Domain;
-import com.terbine.cabinet.model.RefType;
-import com.terbine.cabinet.model.domain.GicsSector;
-import com.terbine.cabinet.model.geo.Country;
-import com.terbine.cabinet.model.geo.State;
+import com.terbine.api.example.model.Domain;
+import com.terbine.api.example.model.RefType;
+import com.terbine.api.example.model.auth.AuthenticatedUser;
+import com.terbine.api.example.model.metadata.domain.Country;
+import com.terbine.api.example.model.metadata.domain.GicsSector;
+import com.terbine.api.example.model.metadata.domain.State;
 
 import java.net.URISyntaxException;
 import java.util.List;

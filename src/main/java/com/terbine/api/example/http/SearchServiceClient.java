@@ -9,8 +9,8 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.cabinet.model.search.IndexedMetadataItem;
-import com.terbine.cabinet.model.search.SearchQuery;
+import com.terbine.api.example.model.search.IndexedMetadataItem;
+import com.terbine.api.example.model.search.SearchQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.client.HttpClient;

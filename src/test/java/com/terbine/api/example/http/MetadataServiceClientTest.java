@@ -9,8 +9,8 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.cabinet.app.AuthenticatedUser;
-import com.terbine.cabinet.model.metadata.Metadata;
+import com.terbine.api.example.model.auth.AuthenticatedUser;
+import com.terbine.api.example.model.metadata.Metadata;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;

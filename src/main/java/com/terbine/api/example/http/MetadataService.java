@@ -10,7 +10,7 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.cabinet.model.metadata.Metadata;
+import com.terbine.api.example.model.metadata.Metadata;
 
 import java.net.URISyntaxException;
 import java.util.UUID;
