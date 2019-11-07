@@ -1,132 +1,175 @@
 {
-  "orgId": "32d7dff4-2d28-4e3d-a116-830af485dc4b",
   "identifier": {
+    "createUpdateInfo": {
+      "createUser": null,
+      "createDate": null,
+      "updateUser": null,
+      "updateDate": null
+    },
     "id": null,
-    "extId": "ID_1",
+    "extId": "be11-29",
     "urn": null,
-    "uri": null
+    "uri": null,
+    "tid": null
   },
   "meta": {
-    "name": "San Fransisco - Weather Underground Sensor Data",
-    "description": "Weather information from variety of weather related readings from various weather stations in San Fransisco area.",
+    "createUpdateInfo": {
+      "createUser": null,
+      "createDate": null,
+      "updateUser": null,
+      "updateDate": null
+    },
+    "name": "My metadata name",
+    "description": "This shows the measurements of my metadata",
     "imageUrl": null,
-    "version": "",
+    "version": "1.0",
     "startDate": null,
-    "endDate": null
+    "endDate": null,
+    "tid": null
   },
   "dataset": [
     {
-      "extId": "SRC_EXT_ID1",
+      "createUpdateInfo": {
+        "createUser": null,
+        "createDate": null,
+        "updateUser": null,
+        "updateDate": null
+      },
+      "extId": "be11-29-ds",
       "type": 30,
       "typeName": "Sensor",
       "sensorInfo": {
-        "type": 422,
-        "typeName": "Barometer",
-        "make": "make 123",
-        "model": "model 123",
-        "comment": "Specific sensor comment"
+        "createUpdateInfo": {
+          "createUser": null,
+          "createDate": null,
+          "updateUser": null,
+          "updateDate": null
+        },
+        "sourceNameId": 0,
+        "sourceName": null,
+        "sourceTypeId": 0,
+        "sourceType": null,
+        "type": 402,
+        "typeName": "Particle Counter",
+        "manufacturer": null,
+        "manufacturerId": 0,
+        "make": null,
+        "model": null,
+        "version": null,
+        "comment": null
       },
       "schemaInfo": {
-        "format": 502,
+        "createUpdateInfo": {
+          "createUser": null,
+          "createDate": null,
+          "updateUser": null,
+          "updateDate": null
+        },
+        "format": 509,
+        "formatName": "ZIP",
         "type": 81,
         "typeName": "JSON",
-        "property": ";",
-        "body": null
+        "property": null,
+        "body": null,
+        "unitOfMeasure": "Count",
+        "unitOfMeasureId": 11638
       },
-      "comment": "Comment on sample dataset information"
+      "comment": null,
+      "externalType": 201,
+      "datasetUrl": null
     }
   ],
   "containers": [
     {
+      "createUpdateInfo": {
+        "createUser": null,
+        "createDate": null,
+        "updateUser": null,
+        "updateDate": null
+      },
       "legalType": null,
       "latitude": null,
       "longitude": null,
       "address": null,
       "altitude": null,
       "legalTypeName": null,
-      "type": 130,
-      "typeName": "Fixed",
+      "type": 70,
+      "typeName": "System",
       "parentId": null,
-      "extId": "CONT_EXT_ID",
+      "extId": null,
+      "locationCategory": 170,
+      "locationCategoryName": "Terrestrial",
       "locationType": 130,
       "locationTypeName": "Fixed",
-      "locationSubType": 10003,
-      "locationSubTypeName": "Lat/Lon",
-      "startDate": "2015-12-03T04:17:36Z",
+      "locationSubType": 10001,
+      "locationSubTypeName": "Address",
+      "startDate": "2016-11-06T11:38:55Z",
       "endDate": null,
-      "name": "Container name",
-      "description": "Container long description",
+      "nameId": 0,
+      "name": null,
+      "description": null,
       "location": {
-        "latitude": "55.6761",
-        "longitude": "12.5683",
-        "altitude": "",
-        "address": "",
+        "latitude": "",
+        "longitude": "",
+        "latLonInfo": [],
+        "altitude": null,
+        "radius": null,
+        "radiusUnit": 0,
+        "radiusUnitName": null,
+        "address": null,
         "city": null,
         "stateTerritory": "",
-        "county": "",
-        "country": "",
-        "postalCode": "",
-        "freetText": null
-      }
+        "county": null,
+        "country": "United States",
+        "countryId": 226,
+        "postalCode": null,
+        "sensorText": null,
+        "freeText": null
+      },
+      "locations": null
     }
   ],
-  "status": 2,
-  "requireLegalReview": 0,
-  "owners": [
-    {
-      "startDate": "2017-11-03T04:17:36Z",
-      "endDate": null,
-      "ownerId": "62371b76-bd48-4dae-86e3-3590737fc8a4",
-      "ownerName": "Owner org for Sample insertion of Metadata",
-      "type": 60,
-      "typeName": "Organization",
-      "comment": "Ownership comment here"
-    }
-  ],
-  "categories": [],
-  "gicsCodes": [
-    {
-      "name": "45102010 IT Consulting & Other Services",
-      "level": "SUB_INDUSTRY",
-      "id": "45102010"
-    }
-  ],
-  "tags": [],
-  "legal": [
-    {
-      "type": 104,
-      "typeName": "Open Source",
-      "externalUrl": null,
-      "comment": "Legal Information for COPYRIGHT",
-      "startDate": "2015-12-03T04:17:36Z",
-      "endDate": null
-    },
-    {
-      "type": 101,
-      "typeName": "Government",
-      "externalUrl": null,
-      "comment": "Legal Information for GOVERNMENT",
-      "startDate": "2015-12-03T04:17:36Z",
-      "endDate": null
-    }
-  ],
+  "type": 1,
+  "status": 1,
+  "loadFrequency": null,
+  "loadFrequencyType": null,
+  "updateInterval": null,
+  "updateIntervalType": null,
+  "lastDataUpdate": null,
+  "sourceIndicator": 1,
+  "requireLegalReview": 1,
+  "hasPrice": 0,
+  "priceText": "No price",
+  "gicsCodes": [],
+  "isicCodes": [],
+  "ownership": {
+    "originators": [],
+    "owners": []
+  },
+  "environment": null,
   "regulatory": [
     {
-      "type": 141,
-      "typeName": "Privacy Shield",
-      "comment": "Regulatory Information for SAFEHARBOR",
-      "startDate": "2015-12-03T04:17:36Z",
+      "createUpdateInfo": {
+        "createUser": null,
+        "createDate": null,
+        "updateUser": null,
+        "updateDate": null
+      },
+      "type": 144,
+      "typeName": "NULL",
+      "comment": "NULL",
+      "startDate": "2016-11-06T11:38:55Z",
       "endDate": null
-    }
-  ],
-  "gradings": [
-    {
-      "type": 120,
-      "grade": "Bronze",
-      "comment": "Protected under TERBINE standard legal terms"
     }
   ],
   "citation": {
-    "text": ""
-  }
+    "createUpdateInfo": {
+      "createUser": "6d94ff88-4b41-41d0-b3a4-d14d89da0939",
+      "createDate": "2016-11-06T11:39:03Z",
+      "updateUser": null,
+      "updateDate": null
+    },
+    "text": "US Environmental Protection Agency. Air Quality System Data\n\nMart [internet database] available via\n\nhttps://www.epa.gov/airdata."
+  },
+  "sourceInfo": null
 }

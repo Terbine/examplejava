@@ -43,8 +43,12 @@ public class MetadataServiceClientTest extends CoreHttpServiceClientTest {
 
         assertNotNull(au);
 
+        metadata.setOrgId(UUID.fromString(au.getOrgid()));
         Metadata newMetadata = httpService.insertMetadata(au.getToken(), metadata);
         assertNotNull(newMetadata);
+        // This will print the JSON for the newly inserted metadata
+        String resultJson = this.getObjectMapper().writeValueAsString(newMetadata);
+        System.out.println(resultJson);
     }
 
     @Test

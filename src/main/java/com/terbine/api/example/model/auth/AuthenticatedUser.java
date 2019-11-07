@@ -30,28 +30,36 @@ import java.util.List;
 public class AuthenticatedUser {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonDefinitions.DATE_FORMAT_STD)
-
     protected DateTime lastlogin;
+
     @JsonProperty
     private String username;
+
     @JsonProperty
     private String displayname;
+
     @JsonProperty
     private String token;
+
     @JsonProperty
     private String userid;
+
     @JsonProperty
     private String orgid;
+
     @JsonProperty
     private String orgname;
+
     @JsonProperty
     private Integer orgType;
+
     @JsonProperty
     @Setter
     private Boolean supervisor = Boolean.FALSE;
 
     @JsonProperty
     private Integer tokenlifeseconds;
+
     @JsonProperty
     private Integer numberNotices;
 
