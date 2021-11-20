@@ -10,9 +10,11 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.api.example.model.metadata.Metadata;
+import com.terbine.api.example.model.ingest.Attachment;
+import com.terbine.api.example.model.ingest.FileUploadInfo;
 
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -20,10 +22,9 @@ import java.util.UUID;
  * communicating with Terbine API Services
  */
 @SuppressWarnings({"javadocs"})
-public interface MetadataService extends CoreHttpService {
-    Metadata insertMetadata(final String token, Metadata metadata) throws URISyntaxException;
+public interface ContinuousService extends CoreHttpService {
+    Attachment uploadDataToMetadata(final String token,
+                                    final FileUploadInfo fileUploadInfo,
+                                    byte[] fileBytes) throws URISyntaxException;
 
-    Metadata updateMetadata(final String token, Metadata metadata) throws URISyntaxException;
-
-    Metadata getMetadata(final String token, final UUID id) throws URISyntaxException;
 }

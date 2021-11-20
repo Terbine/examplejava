@@ -9,20 +9,27 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.api.example.model.search.IndexedMetadataItem;
-import com.terbine.api.example.model.search.SearchQuery;
+import com.terbine.api.example.model.ingest.Attachment;
+import com.terbine.api.example.model.ingest.FileUploadInfo;
+import com.terbine.api.example.model.metadata.Metadata;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.ContentBody;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author brianeno
@@ -31,7 +38,7 @@ import java.util.List;
  */
 @Slf4j
 @SuppressWarnings({"javadocs"})
-public class SearchServiceClient extends CoreHttpServiceClient implements SearchService {
+public class ContinuousServiceClient extends CoreHttpServiceClient implements ContinuousService {
 
     /**
      * Constructor.
@@ -40,7 +47,7 @@ public class SearchServiceClient extends CoreHttpServiceClient implements Search
      *                   requests.
      * @param baseUri    base URI for the service
      */
-    public SearchServiceClient(
+    public ContinuousServiceClient(
             HttpClient httpClient,
             final String baseUri) {
 
@@ -48,29 +55,29 @@ public class SearchServiceClient extends CoreHttpServiceClient implements Search
     }
 
     @Override
-    public List<IndexedMetadataItem> searchBasic(SearchQuery searchQuery,
-                                                 Integer pageNum,
-                                                 Integer pageSize,
-                                                 String sort,
-                                                 String order) throws URISyntaxException {
-        List<IndexedMetadataItem> list;
+    public Attachment uploadDataToMetadata(final String token,
+                                           final FileUploadInfo fileUploadInfo,
+                                           byte[] content) throws URISyntaxException {
+        Attachment attachment;
         try {
-            String responseString = null;
             URI uri = new URIBuilder(this.getBaseUri())
-                    .setPath("/api/search/v2/metadata")
-                    .setParameter("pageNum", pageNum.toString())
-                    .setParameter("pageSize", pageSize.toString())
-                    .setParameter("sort", sort)
-                    .setParameter("order", order)
+                    .setPath("/api/dataset/" + fileUploadInfo.getDatasetId() + "/content/upload/")
+                    .build();
+
+            String fileUploadInfoJson = this.getObjMapper().writeValueAsString(fileUploadInfo);
+            ContentBody fileBody = new ByteArrayBody(content, fileUploadInfo.getFileName());
+            HttpEntity entity = MultipartEntityBuilder
+                    .create()
+                    .addTextBody("info", fileUploadInfoJson)
+                    .addPart("file", fileBody)
                     .build();
 
             HttpEntityEnclosingRequest request = new HttpPost(uri);
-
-            String json = this.getObjMapper().writeValueAsString(searchQuery);
-
-            StringEntity entity = new StringEntity(json);
-            entity.setContentType(CONTENT_TYPE_JSON);
             request.setEntity(entity);
+
+            request.addHeader("X-TRACKING-ID", UUID.randomUUID().toString());
+            request.addHeader("authorization", "bearer " + token);
+
             HttpResponseInfo httpResponseInfo = this.getHttpClient().execute((HttpUriRequest) request, getResponseHandler());
             // just check if it is in 200 range
             if (httpResponseInfo.getResponseCode() > 299) {
@@ -81,17 +88,16 @@ public class SearchServiceClient extends CoreHttpServiceClient implements Search
                 log.error(errorString + " Status {}", httpResponseInfo.getResponseCode());
                 throw new RuntimeException("Error calling REST service, status " + httpResponseInfo.getResponseCode());
             } else {
-                responseString = httpResponseInfo.getResponseString();
-                log.info("Response from REST service. Code = " + httpResponseInfo.getResponseCode() + ","
+                String responseString = httpResponseInfo.getResponseString();
+                log.info("Response from Posting Dataset. Code = " + httpResponseInfo.getResponseCode() + ","
                         + " Data = [" + responseString + "]");
-                list = this.getObjMapper().readValue(responseString,
-                        this.getObjMapper().getTypeFactory().constructCollectionType(
-                                List.class, IndexedMetadataItem.class));
+
+                attachment = this.getObjMapper().readValue(responseString, Attachment.class);
             }
         } catch (IOException ex) {
             log.error("Error calling REST service", ex);
             throw new RuntimeException("Error calling REST service", ex);
         }
-        return list;
+        return attachment;
     }
 }
