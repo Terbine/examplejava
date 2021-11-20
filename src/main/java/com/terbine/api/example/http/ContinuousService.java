@@ -10,8 +10,9 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.api.example.model.ingest.Attachment;
-import com.terbine.api.example.model.ingest.FileUploadInfo;
+import com.terbine.api.example.model.continuous.AggregatedContinuousRecord;
+import com.terbine.api.example.model.continuous.ContinuousRecord;
+import org.joda.time.DateTime;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -23,8 +24,12 @@ import java.util.UUID;
  */
 @SuppressWarnings({"javadocs"})
 public interface ContinuousService extends CoreHttpService {
-    Attachment uploadDataToMetadata(final String token,
-                                    final FileUploadInfo fileUploadInfo,
-                                    byte[] fileBytes) throws URISyntaxException;
+    List<ContinuousRecord> getContinuousRecordsSince(final String token,
+                                                     final UUID metadataId,
+                                                     DateTime dateSince) throws URISyntaxException;
 
+    AggregatedContinuousRecord getContinuousRecordsRangeWithContent(final String token,
+                                                                    final UUID metadataId,
+                                                                    DateTime dateSinceFrom,
+                                                                    DateTime dateSinceTo) throws URISyntaxException;
 }

@@ -17,6 +17,12 @@ public class CommonDefinitions {
     public static final String DATE_FORMAT_DATEONLY_STD = "yyyy-MM-dd";
     public static final String DATE_FORMAT_STD = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
+    public static final String TRACKING_ID_HDR = "X-TRACKING-ID";
+    public static final String CONNECTOR_ID_HDR = "X-CONNECTOR-ID";
+    public static final String APIKEY_HDR = "X-APIKEY";
+    public static final String CREATED_DATE_HDR = "X-CREATED-DATE";
+    public static final String SOURCE_AGENT_HDR = "X-SOURCE-AGENT";
+
     public static final String AUTH_HEADER = "authorization";
     public static final String JWT_BEARER_PREFIX = "bearer ";
 

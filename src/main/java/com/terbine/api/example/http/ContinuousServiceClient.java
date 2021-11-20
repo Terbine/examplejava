@@ -9,25 +9,23 @@
  */
 package com.terbine.api.example.http;
 
-import com.terbine.api.example.model.ingest.Attachment;
-import com.terbine.api.example.model.ingest.FileUploadInfo;
-import com.terbine.api.example.model.metadata.Metadata;
+import com.terbine.api.example.model.continuous.AggregatedContinuousRecord;
+import com.terbine.api.example.model.continuous.ContinuousRecord;
+import com.terbine.api.example.util.CommonDefinitions;
+import com.terbine.api.example.util.UUIDHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.ContentBody;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +37,8 @@ import java.util.UUID;
 @Slf4j
 @SuppressWarnings({"javadocs"})
 public class ContinuousServiceClient extends CoreHttpServiceClient implements ContinuousService {
+
+    final static DateTimeFormatter formatter = DateTimeFormat.forPattern(CommonDefinitions.DATE_FORMAT_STD);
 
     /**
      * Constructor.
@@ -55,25 +55,18 @@ public class ContinuousServiceClient extends CoreHttpServiceClient implements Co
     }
 
     @Override
-    public Attachment uploadDataToMetadata(final String token,
-                                           final FileUploadInfo fileUploadInfo,
-                                           byte[] content) throws URISyntaxException {
-        Attachment attachment;
+    public List<ContinuousRecord> getContinuousRecordsSince(final String token,
+                                                            final UUID metadataId,
+                                                            DateTime dateSince) throws URISyntaxException {
+        List<ContinuousRecord> list = new ArrayList<>();
         try {
+            String dateSinceStr = formatter.print(dateSince);
             URI uri = new URIBuilder(this.getBaseUri())
-                    .setPath("/api/dataset/" + fileUploadInfo.getDatasetId() + "/content/upload/")
+                    .setPath("/api/continuous/metadata/" + metadataId + "/since/" + dateSinceStr)
                     .build();
 
-            String fileUploadInfoJson = this.getObjMapper().writeValueAsString(fileUploadInfo);
-            ContentBody fileBody = new ByteArrayBody(content, fileUploadInfo.getFileName());
-            HttpEntity entity = MultipartEntityBuilder
-                    .create()
-                    .addTextBody("info", fileUploadInfoJson)
-                    .addPart("file", fileBody)
-                    .build();
 
-            HttpEntityEnclosingRequest request = new HttpPost(uri);
-            request.setEntity(entity);
+            HttpGet request = new HttpGet(uri);
 
             request.addHeader("X-TRACKING-ID", UUID.randomUUID().toString());
             request.addHeader("authorization", "bearer " + token);
@@ -89,15 +82,60 @@ public class ContinuousServiceClient extends CoreHttpServiceClient implements Co
                 throw new RuntimeException("Error calling REST service, status " + httpResponseInfo.getResponseCode());
             } else {
                 String responseString = httpResponseInfo.getResponseString();
-                log.info("Response from Posting Dataset. Code = " + httpResponseInfo.getResponseCode() + ","
+                log.info("Response from Retrieving Continuous Feed Info. Code = " + httpResponseInfo.getResponseCode() + ","
                         + " Data = [" + responseString + "]");
 
-                attachment = this.getObjMapper().readValue(responseString, Attachment.class);
+                list = this.getObjMapper().readValue(responseString, this.getObjMapper().getTypeFactory().constructCollectionType(
+                        List.class, ContinuousRecord.class));
             }
         } catch (IOException ex) {
             log.error("Error calling REST service", ex);
             throw new RuntimeException("Error calling REST service", ex);
         }
-        return attachment;
+        return list;
+    }
+
+    @Override
+    public AggregatedContinuousRecord getContinuousRecordsRangeWithContent(final String token,
+                                                                           final UUID metadataId,
+                                                                           DateTime dateSinceFrom,
+                                                                           DateTime dateSinceTo) throws URISyntaxException {
+        AggregatedContinuousRecord aggregatedContinuousRecord;
+        try {
+            String dateSinceFromStr = formatter.print(dateSinceFrom);
+            String dateSinceToStr = formatter.print(dateSinceTo);
+            URI uri = new URIBuilder(this.getBaseUri())
+                    .setPath("/api/continuous/metadata/" + metadataId + "/" + dateSinceFromStr + "/to/" + dateSinceToStr)
+                    .build();
+
+
+            HttpGet request = new HttpGet(uri);
+
+            request.addHeader("X-TRACKING-ID", UUID.randomUUID().toString());
+            request.addHeader("authorization", "bearer " + token);
+            request.addHeader("X-APIKEY", UUIDHelper.getUUID().toString());
+            request.addHeader("X-SOURCE-AGENT", "EXAMPLEAPI");
+
+            HttpResponseInfo httpResponseInfo = this.getHttpClient().execute((HttpUriRequest) request, getResponseHandler());
+            // just check if it is in 200 range
+            if (httpResponseInfo.getResponseCode() > 299) {
+                String errorString = httpResponseInfo.getResponseString();
+                if (errorString == null || errorString.length() == 0) {
+                    errorString = "Error during data publishing.";
+                }
+                log.error(errorString + " Status {}", httpResponseInfo.getResponseCode());
+                throw new RuntimeException("Error calling REST service, status " + httpResponseInfo.getResponseCode());
+            } else {
+                String responseString = httpResponseInfo.getResponseString();
+                log.info("Response from Retrieving Aggregated Continuous Record. Code = " + httpResponseInfo.getResponseCode() + ","
+                        + " Data = [" + responseString + "]");
+
+                aggregatedContinuousRecord = this.getObjMapper().readValue(responseString, AggregatedContinuousRecord.class);
+            }
+        } catch (IOException ex) {
+            log.error("Error calling REST service", ex);
+            throw new RuntimeException("Error calling REST service", ex);
+        }
+        return aggregatedContinuousRecord;
     }
 }
